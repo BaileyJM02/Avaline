@@ -18,7 +18,9 @@ app.set('views', path.join(__dirname, '/views'))
 
 app.get('/', (request, response) => {
   response.render('home', {
-    version: webVersion
+    version: webVersion,
+    inviteBot: inviteBot,
+    inviteServer: inviteServer
   })
 })
 
