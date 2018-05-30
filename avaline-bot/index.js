@@ -12,32 +12,26 @@ var section = 0;
 function updateStatus() {
   if (section === 0) {
     bot.editStatus("online", {name: `a!help | ${bot.guilds.size} Guilds`, type: 3})
-    console.log(`Changed ${section}`)
     section = section + 1
     
   } else if (section === 1) {
     bot.editStatus("online", {name: `a!help | ${Object.keys(bot.channelGuildMap).length} Channels`, type: 3})
-    console.log(`Changed ${section}`)
     section = section + 1
     
   } else if (section === 2) {
     bot.editStatus("online", {name: `a!help | ${bot.users.size} Users`, type: 3})
-    console.log(`Changed ${section}`)
     section = section + 1
     
   } else if (section === 3) {
     bot.editStatus("online", {name: `a!help | ${bot.options.maxShards} Shards`, type: 3})
-    console.log(`Changed ${section}`)
     section = section + 1
     
   } else if (section === 4) {
     bot.editStatus("online", {name: `a!help | ${moment.duration(bot.uptime).format("D[d] H[h] m[m] s[s]")} Uptime`, type: 3})
-    console.log(`Changed ${section}`)
     section = section + 1
     
   } else if (section === 5) {
     bot.editStatus("online", {name: `a!help | ${formatBytes(process.memoryUsage().heapUsed)} Uptime`, type: 3})
-    console.log(`Changed ${section}`)
     section = 0
     
   }
