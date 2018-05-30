@@ -3,6 +3,9 @@ const express = require('express')
 const exphbs = require('express-handlebars')
 const app = express()
 
+var inviteBot = "https://discordapp.com/api/oauth2/authorize?client_id=450754650417659916&permissions=8&scope=bot"
+var inviteServer = "https://discord.gg/NpWC4F4"
+
 var webVersion = "0.0.1"
 
 app.engine('.hbs', exphbs({
