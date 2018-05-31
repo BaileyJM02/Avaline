@@ -23,26 +23,29 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
-            <a class="nav-link {{#if home}}active{{/if}}" href="{{href.home}}">Home</a>
+            <a class="nav-link {{#if home}}active{{/if}}" href="{{href.home.url}}">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link {{#if about}}active{{/if}}" href="{{href.about}}">About</a>
+            <a class="nav-link {{#if about}}active{{/if}}" href="{{href.about.url}}">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link {{#if commands}}active{{/if}}" href="{{href.commands.url}}">Commands</a>
           </li>
           <li class="nav-item dropdown disabled">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               Dashboard
             </a>
             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="{{href.dashboard.home}}">Home</a>
-              <a class="dropdown-item" href="{{href.dashboard.two}}">Servers</a>
+              <a class="dropdown-item {{#if dashboard_home}}active{{/if}}" href="{{href.dashboard.home.url}}">Home</a>
+              <a class="dropdown-item {{#if dashboard_two}}" href="{{href.dashboard.two.url}}">Servers</a>
               <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="{{href.dashboard.three}}"><i>Commands</i></a>
+              <a class="dropdown-item {{#if dashboard_three}}" href="{{href.dashboard.three.url}}"><i>Other</i></a>
             </div>
           </li>
         </ul>
         <form class="form-inline my-2 my-lg-0">
           <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-          <a class="btn btn-outline-dark my-2 my-sm-0" href="{{#if user.loggedin}}{{href.logout}}{{else}}{{href.login}}{{/if}}">{{#if user.loggedin}}Logout{{else}}Login{{/if}}</a>
+          <a class="btn btn-outline-dark my-2 my-sm-0" href="{{#if user.loggedin}}{{href.logout.url}}{{else}}{{href.login.url}}{{/if}}">{{#if user.loggedin}}Logout{{else}}Login{{/if}}</a>
         </form>
       </div>
     </nav>

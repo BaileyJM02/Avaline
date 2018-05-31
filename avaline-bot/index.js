@@ -5,6 +5,10 @@ const Eris = require("eris");
 const formatBytes = require(path.join(__dirname, "/src/formatBytes"));
 const momentFormat = require(path.join(__dirname, "/src/momentFormat"));
 
+
+console.log(`Starting ${config.bot.name} v${config.version.bot}\nWith Server v${config.version.server}`)
+
+
 var minutes = config.status.updateInterval
 var the_interval = minutes * 60 * 1000;
 var section = 0;
@@ -40,9 +44,6 @@ function updateStatus() {
   }
 };
 
-
-console.log(`Starting Bot... v${config.version.bot}`)
-
 function errorEmbed(error, fix, icon_url, msg_channel_id) {
   bot.createMessage(msg_channel_id, {
     embed: {
@@ -72,14 +73,17 @@ var bot = new Eris.CommandClient(config.token, {}, {
 });
 
 bot.on("ready", () => { // When the bot is ready
-    console.log("Ready!"); // Log "Ready!"
-    console.log(`Guilds: ${bot.guilds.size}`)
+    console.log(`${config.bot.name} ready!`); // Log "Ready!"
+    console.log("\nStats:")
     updateStatus();
     setInterval(function() {
       updateStatus();
     }, the_interval);
     console.log(`Memory Usage: ${formatBytes(process.memoryUsage().heapUsed)}`)
     console.log(`Max Shards: ${bot.options.maxShards}`)
+    console.log(`Users: ${bot.users.size}`)
+    console.log(`Guilds: ${bot.guilds.size}`)
+    console.log(`Channels: ${Object.keys(bot.channelGuildMap).length}`)
 });
 
 
@@ -174,7 +178,22 @@ var statsCommand = bot.registerCommand("stats", (msg, args) => { // Make an echo
           name: "Memory Usage",
           value: formatBytes(process.memoryUsage().heapUsed),
           inline: true
-        }
+        },
+        {
+          name: "Maintenance Mode",
+          value: config.maintenance,
+          inline: true
+        },
+        {
+          name: "Avaline Version",
+          value: config.version.bot,
+          inline: true
+        },
+        {
+          name: "Server Version",
+          value: config.version.server,
+          inline: true
+        },
       ],
       footer: { // Footer text
         text: "Created with Eris."
