@@ -333,4 +333,12 @@ pubspec.lock
 pubspec.lock
 pubspec.lock
 package-lock.json
+<<<<<<< HEAD
 .vscode/settings.json
+=======
+.vscode/settings.json
+package-lock.json
+package-lock.json
+package-lock.json
+package-lock.json
+>>>>>>> origin/master

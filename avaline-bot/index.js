@@ -1,50 +1,47 @@
+const path = require('path')
+const config = require(path.join(__dirname, "../config.json"));
 const Eris = require("eris");
-const moment = require("moment");
-require("moment-duration-format")
 
-var botVersion = "0.1.0"
-var mainColor = 9952555
-var inviteBot = "https://discordapp.com/api/oauth2/authorize?client_id=450754650417659916&permissions=8&scope=bot"
-var inviteServer = "https://discord.gg/NpWC4F4"
-var minutes = 2, the_interval = minutes * 60 * 1000;
+const formatBytes = require(path.join(__dirname, "/src/formatBytes"));
+const momentFormat = require(path.join(__dirname, "/src/momentFormat"));
+
+
+console.log(`Starting ${config.bot.name} v${config.version.bot}\nWith Server v${config.version.server}`)
+
+
+var minutes = config.status.updateInterval
+var the_interval = minutes * 60 * 1000;
 var section = 0;
 
 function updateStatus() {
-  if (section === 0) {
-    bot.editStatus("online", {name: `a!help | ${bot.guilds.size} Guilds`, type: 3})
-    section = section + 1
-    
-  } else if (section === 1) {
-    bot.editStatus("online", {name: `a!help | ${Object.keys(bot.channelGuildMap).length} Channels`, type: 3})
-    section = section + 1
-    
-  } else if (section === 2) {
-    bot.editStatus("online", {name: `a!help | ${bot.users.size} Users`, type: 3})
-    section = section + 1
-    
-  } else if (section === 3) {
-    bot.editStatus("online", {name: `a!help | ${bot.options.maxShards} Shards`, type: 3})
-    section = section + 1
-    
-  } else if (section === 4) {
-    bot.editStatus("online", {name: `a!help | ${moment.duration(bot.uptime).format("D[d] H[h] m[m] s[s]")} Uptime`, type: 3})
-    section = section + 1
-    
-  } else if (section === 5) {
-    bot.editStatus("online", {name: `a!help | ${formatBytes(process.memoryUsage().heapUsed)} Uptime`, type: 3})
-    section = 0
-    
+  if (!config.maintenance) {
+    if (section === 0) {
+      bot.editStatus("online", {name: `a!help | ${bot.guilds.size} Guilds`, type: 3})
+      section = section + 1
+      
+    } else if (section === 1) {
+      bot.editStatus("online", {name: `a!help | ${Object.keys(bot.channelGuildMap).length} Channels`, type: 2})
+      section = section + 1
+      
+    } else if (section === 2) {
+      bot.editStatus("online", {name: `a!help | ${bot.users.size} Users`, type: 2})
+      section = section + 1
+      
+    } else if (section === 3) {
+      bot.editStatus("online", {name: `a!help | ${bot.options.maxShards} Shards`, type: 2})
+      section = section + 1
+      
+    } else if (section === 4) {
+      bot.editStatus("online", {name: `a!help | ${momentFormat(bot.uptime)} Uptime`, type: 2})
+      section = section + 1
+      
+    } else if (section === 5) {
+      bot.editStatus("online", {name: `a!help | Memory ${formatBytes(process.memoryUsage().heapUsed)}`, type: 2})
+      section = 0
+    }
+  } else {
+    bot.editStatus("idle", {name: `Down for maintenance!`, type: 0})
   }
-};
-
-
-console.log(`Starting Bot... v${botVersion}`)
-
-function formatBytes(bytes) {
-  if(bytes < 1024) return bytes + " Bytes";
-  else if(bytes < 1048576) return(bytes / 1024).toFixed(3) + " KB";
-  else if(bytes < 1073741824) return(bytes / 1048576).toFixed(3) + " MB";
-  else return(bytes / 1073741824).toFixed(3) + " GB";
 };
 
 function errorEmbed(error, fix, icon_url, msg_channel_id) {
@@ -52,7 +49,7 @@ function errorEmbed(error, fix, icon_url, msg_channel_id) {
     embed: {
       title: "**Error!** "+error, // Title of the embed
       description: "Oops, either you did something wrong or I broke...\n\n"+fix,
-      color: 13632027, // Color, either in hex (show), or a base-10 integer
+      color: config.embedColor.error, // Color, either in hex (show), or a base-10 integer
       /*fields: [ // Array of field objects
         {
           value: fix, // Field
@@ -68,21 +65,25 @@ function errorEmbed(error, fix, icon_url, msg_channel_id) {
 }
 
 
-var bot = new Eris.CommandClient("NDUwNzU0NjUwNDE3NjU5OTE2.De8OWw.tYMeX1dHCbgaCJp75GLeg2Gdf5E", {}, {
-  description: "A simple boat.",
-  owner: "Bailey#8899",
-  prefix: "a!",
-  maxShards: "auto"
+var bot = new Eris.CommandClient(config.token, {}, {
+  description: config.description,
+  owner: config.owner,
+  prefix: config.prefix,
+  maxShards: config.maxShards
 });
 
 bot.on("ready", () => { // When the bot is ready
-    console.log("Ready!"); // Log "Ready!"
-    console.log(`Guilds: ${bot.guilds.size}`)
+    console.log(`${config.bot.name} ready!`); // Log "Ready!"
+    console.log("\nStats:")
     updateStatus();
     setInterval(function() {
       updateStatus();
     }, the_interval);
-
+    console.log(`Memory Usage: ${formatBytes(process.memoryUsage().heapUsed)}`)
+    console.log(`Max Shards: ${bot.options.maxShards}`)
+    console.log(`Users: ${bot.users.size}`)
+    console.log(`Guilds: ${bot.guilds.size}`)
+    console.log(`Channels: ${Object.keys(bot.channelGuildMap).length}`)
 });
 
 
@@ -146,7 +147,7 @@ var statsCommand = bot.registerCommand("stats", (msg, args) => { // Make an echo
         name: bot.username,
         icon_url: bot.avatarURL
       },
-      color: mainColor, // Color, either in hex (show), or a base-10 integer
+      color: config.embedColor.main, // Color, either in hex (show), or a base-10 integer
       fields: [ // Array of field objects
         {
           name: "Guilds", // Field title
@@ -170,14 +171,29 @@ var statsCommand = bot.registerCommand("stats", (msg, args) => { // Make an echo
         },
         {
           name: "Uptime",
-          value: moment.duration(bot.uptime).format("D[d] H[h] m[m] s[s]"),
+          value: momentFormat(bot.uptime),
           inline: true
         },
         {
           name: "Memory Usage",
           value: formatBytes(process.memoryUsage().heapUsed),
           inline: true
-        }
+        },
+        {
+          name: "Maintenance Mode",
+          value: config.maintenance,
+          inline: true
+        },
+        {
+          name: "Avaline Version",
+          value: config.version.bot,
+          inline: true
+        },
+        {
+          name: "Server Version",
+          value: config.version.server,
+          inline: true
+        },
       ],
       footer: { // Footer text
         text: "Created with Eris."
@@ -200,16 +216,16 @@ var inviteCommand = bot.registerCommand("invite", (msg, args) => { // Make an ec
         name: bot.username,
         icon_url: bot.avatarURL
       },
-      color: mainColor, // Color, either in hex (show), or a base-10 integer
+      color: condig.embedColor.main, // Color, either in hex (show), or a base-10 integer
       fields: [ // Array of field objects
         {
           name: "Join the Server", // Field title
-          value: `[Click Me](${inviteServer})`, // Field
+          value: `[Click Me](${config.invite.server})`, // Field
           inline: true // Whether you want multiple fields in same line
         },
         {
           name: "Invite the Bot", // Field title
-          value: `[Click Me](${inviteBot})`, // Field
+          value: `[Click Me](${config.invite.bot})`, // Field
           inline: true // Whether you want multiple fields in same line
         }
       ],

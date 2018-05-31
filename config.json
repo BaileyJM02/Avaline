@@ -1,0 +1,88 @@
+{
+  "token": "NDUwNzU0NjUwNDE3NjU5OTE2.De8OWw.tYMeX1dHCbgaCJp75GLeg2Gdf5E",
+  "prefix": "a!",
+  "port": 8080,
+  "owner": "Bailey#8899",
+  "maxShards": "auto",
+  "description": "A simple boat.",
+  "down": false,
+  "maintenance": false,
+  "embedColor": {
+    "error": 13632027,
+    "main": 9952555
+  },
+  "version": {
+    "bot": "0.1.0",
+    "server": "0.1.2"
+  },
+  "user": {
+    "loggedin": false
+  },
+  "invite": {
+    "bot": "https://discordapp.com/api/oauth2/authorize?client_id=450754650417659916&permissions=8&scope=bot",
+    "server": "https://discord.gg/NpWC4F4"
+  },
+  "status": {
+    "updateInterval": 2
+  },
+  "server": {
+    "route": "",
+    "pathToCSS":"/css/"
+  },
+  "bot": {
+    "name": "Avaline"
+  },
+  "href": {
+    "title":"Avaline",
+    "home": {
+      "url":"/",
+      "serverURL":"/",
+      "title": "- Home",
+      "view": "home"
+    },
+    "about": {
+      "url":"/about",
+      "serverURL":"/about",
+      "title": "- About",
+      "view": "about"
+    },
+    "commands": {
+      "url":"/commands",
+      "serverURL":"/commands",
+      "title": "- Commands",
+      "view": "soon"
+    },
+    "dashboard": {
+      "home": {
+        "url":"/dashboard",
+        "serverURL":"/dashboard*",
+        "title": "- Dashboard",
+        "view": "soon"
+      },
+      "two": {
+        "url":"/dashboard/two",
+        "serverURL":"/to-be-added",
+        "title": "- Dashboard",
+        "view": "soon"
+      },
+      "three": {
+        "url":"/dashboard/three",
+        "serverURL":"/to-be-added",
+        "title": "- Dashboard",
+        "view": "soon"
+      }
+    },
+    "login": {
+      "url":"/login",
+      "serverURL":"/login",
+      "title": "- Login",
+      "view": "soon"
+    },
+    "logout": {
+      "url":"/logout",
+      "serverURL":"/logout",
+      "title": "- Logout",
+      "view": "soon"
+    }
+  }
+}
