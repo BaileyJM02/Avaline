@@ -1,0 +1,43 @@
+{
+  "token": "NDUwNzU0NjUwNDE3NjU5OTE2.De8OWw.tYMeX1dHCbgaCJp75GLeg2Gdf5E",
+  "prefix": "a!",
+  "port": 8080,
+  "owner": "Bailey#8899",
+  "maxShards": "auto",
+  "description": "A simple boat.",
+  "down": false,
+  "maintenance": true,
+  "embedColor": {
+    "error": 13632027,
+    "main": 9952555
+  },
+  "version": {
+    "bot": "0.1.0",
+    "server": "0.1.2"
+  },
+  "user": {
+    "loggedin": false
+  },
+  "invite": {
+    "bot": "https://discordapp.com/api/oauth2/authorize?client_id=450754650417659916&permissions=8&scope=bot",
+    "server": "https://discord.gg/NpWC4F4"
+  },
+  "status": {
+    "updateInterval": 2
+  },
+  "server": {
+    "route": "",
+    "pathToCSS":"/css/"
+  },
+  "href": {
+    "home": "/",
+    "about": "/about",
+    "dashboard": {
+      "home": "/dashboard",
+      "two": "/dashboard/two",
+      "three": "/dashboard/three"
+    },
+    "login": "/login",
+    "logout": "/logout"
+  }
+}
