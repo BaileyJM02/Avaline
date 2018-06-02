@@ -2,10 +2,10 @@
   "name": "avaline",
   "version": "0.2.0",
   "description": "",
-  "main": "index.js",
+  "main": "avaline.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "node avaline.js"
   },
   "engines": {
     "node": ">=10"
@@ -29,6 +29,7 @@
     "enmap": "^2.0.4",
     "enmap-level": "^2.0.2",
     "moment": "^2.20.1",
-    "moment-duration-format": "^2.2.0"
+    "moment-duration-format": "^2.2.0",
+    "pm2": "^2.10.4"
   }
 }

@@ -1,5 +1,5 @@
 const path = require('path')
-const config = require(path.join(__dirname, "../config.json"));
+const config = require(path.join(__dirname, "../config.js"));
 var href = config.href
 const express = require('express')
 const exphbs = require('express-handlebars')
