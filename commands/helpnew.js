@@ -18,17 +18,50 @@ exports.run = (client, message, args, level) => {
     const longest = commandNames.reduce((long, str) => Math.max(long, str.length), 0);
 
     let currentCategory = "";
-    let output = `= Command List =\n\n[Use ${message.settings.prefix}help <commandname> for details]\n`;
+    let output = "";
+    let fields = [];
+    let fieldsFinal = [];
     const sorted = myCommands.array().sort((p, c) => p.help.category > c.help.category ? 1 :  p.help.name > c.help.name && p.help.category === c.help.category ? 1 : -1 );
     sorted.forEach( c => {
       const cat = c.help.category.toProperCase();
       if (currentCategory !== cat) {
         output += `\u200b\n== ${cat} ==\n`;
         currentCategory = cat;
+        fields[cat] = ({"name":`${cat}`});
+        fields[cat]["value"] = "";
       }
-      output += `${message.settings.prefix}${c.help.name}${" ".repeat(longest - c.help.name.length)} :: ${c.help.description}\n`;
+      fields[cat]["value"] += `${message.settings.prefix}${c.help.name}${" ".repeat(longest - c.help.name.length)} :: ${c.help.description}\n`;
     });
-    message.channel.send(output, {code: "asciidoc", split: { char: "\u200b" }});
+    // ==== STITCH ==== //
+    console.log(fields)
+    console.log("=======")
+    for(var item of fields){
+      fieldsFinal.push(item.val); 
+    }
+    function getFields(input, field) {
+      return input.map(function(o) {
+          return o[field];
+      });
+    }
+    fieldsFinal.getFields(fields, name)
+    console.log(fieldsFinal)
+    /// === STITCH === ///
+    message.channel.send({
+      embed: {
+        title: "HELP", // Title of the embed
+        description: `Here is some **helpful** helpfulness!\n\n[Use ${message.settings.prefix}help <commandname> for details]\n`,
+        author: {
+          name: client.user.username,
+          icon_url: client.user.avatarURL
+        },
+        color: client.config.embedColor.main, // Color, either in hex (show), or a base-10 integer
+        fields: fields,
+        timestamp: new Date(),
+        // footer: { // Footer text
+        //   text: "Avaline."
+        // }
+      }
+    });
   } else {
     // Show individual command's help.
     let command = args[0];
