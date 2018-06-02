@@ -1,88 +1,82 @@
 {
-  "token": "NDUwNzU0NjUwNDE3NjU5OTE2.De8OWw.tYMeX1dHCbgaCJp75GLeg2Gdf5E",
-  "prefix": "a!",
-  "port": 8080,
-  "owner": "Bailey#8899",
-  "maxShards": "auto",
-  "description": "A simple boat.",
-  "down": false,
-  "maintenance": false,
-  "embedColor": {
-    "error": 13632027,
-    "main": 9952555
+  "token":"NDUwNzU0NjUwNDE3NjU5OTE2.De8OWw.tYMeX1dHCbgaCJp75GLeg2Gdf5E",
+  "betaToken":"NDUxOTk0NTQwMzAwMDQyMjQw.DfJ4nw.C1s2ndKfS_4oaUK0XKQPKVs3r_s",
+  "embedColor":{
+    "error":13632027,
+    "main":9952555
   },
-  "version": {
-    "bot": "0.1.0",
-    "server": "0.1.2"
+  "version":{
+   "bot":"0.1.0",
+   "server":"0.1.2"
+   },
+  "user":{
+    "loggedin":false
   },
-  "user": {
-    "loggedin": false
+  "invite":{
+    "bot":"https://discordapp.com/api/oauth2/authorize?client_id=450754650417659916&permissions=8&scope=bot",
+    "server":"https://discord.gg/NpWC4F4"
   },
-  "invite": {
-    "bot": "https://discordapp.com/api/oauth2/authorize?client_id=450754650417659916&permissions=8&scope=bot",
-    "server": "https://discord.gg/NpWC4F4"
+  "status":{
+    "updateInterval":2
   },
-  "status": {
-    "updateInterval": 2
-  },
-  "server": {
-    "route": "",
+  "server":{
+    "route":"",
     "pathToCSS":"/css/"
   },
-  "bot": {
-    "name": "Avaline"
+  "bot":{
+    "name":"Avaline"
   },
-  "href": {
+  "href":{
     "title":"Avaline",
-    "home": {
+    "home":{
       "url":"/",
       "serverURL":"/",
-      "title": "- Home",
-      "view": "home"
+      "title":" - Home",
+      "view":"home"
     },
-    "about": {
+    "about":{
       "url":"/about",
       "serverURL":"/about",
-      "title": "- About",
-      "view": "about"
+      "title":" - About",
+      "view":"about"
     },
-    "commands": {
+    "commands":{
       "url":"/commands",
       "serverURL":"/commands",
-      "title": "- Commands",
-      "view": "soon"
+      "title":" - Commands",
+      "view":"soon"
     },
-    "dashboard": {
-      "home": {
+    "dashboard":{
+      "home":{
         "url":"/dashboard",
         "serverURL":"/dashboard*",
-        "title": "- Dashboard",
-        "view": "soon"
+        "title":" - Dashboard",
+        "view":"soon"
       },
-      "two": {
+      "two":{
         "url":"/dashboard/two",
         "serverURL":"/to-be-added",
-        "title": "- Dashboard",
-        "view": "soon"
+        "title":" - Dashboard",
+        "view":"soon"
       },
-      "three": {
+      "three":{
         "url":"/dashboard/three",
         "serverURL":"/to-be-added",
-        "title": "- Dashboard",
-        "view": "soon"
+        "title":" - Dashboard",
+        "view":"soon"
       }
     },
-    "login": {
+    "login":{
       "url":"/login",
       "serverURL":"/login",
-      "title": "- Login",
-      "view": "soon"
+      "title":" - Login",
+      "view":"soon"
     },
-    "logout": {
+    "logout":{
       "url":"/logout",
       "serverURL":"/logout",
-      "title": "- Logout",
-      "view": "soon"
+      "title":" - Logout",
+      "view":"soon"
     }
   }
 }
