@@ -13,10 +13,15 @@ const readdir = promisify(require("fs").readdir);
 const Enmap = require("enmap");
 const EnmapLevel = require("enmap-level");
 
+const SQLite = require("enmap-sqlite");
+
 // This is your client. Some people call it `bot`, some people call it `self`,
 // some might call it `cootchie`. Either way, when you see `client.something`,
 // or `bot.something`, this is what we're refering to. Your client.
 const client = new Discord.Client();
+
+//Setup points
+client.points = new Enmap({provider: new SQLite({name: "points"})});
 
 // Here we load the config file that contains our token and our prefix values.
 client.config = require("./config.js");

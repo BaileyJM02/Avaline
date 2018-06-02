@@ -67,3 +67,5 @@ typings/
 .serverless
 
 .package_lock.json
+
+package-lock.json

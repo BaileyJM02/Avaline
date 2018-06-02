@@ -28,9 +28,10 @@ const config = {
     "modRole": "Moderator",
     "adminRole": "Administrator",
     "systemNotice": "true", // This gives a notice when a user tries to run a command that they do not have permission to use.
-    "welcomeChannel": "welcome",
+    "welcomeChannel": "general",
     "welcomeMessage": "Say hello to {{user}}, everyone! We all need a warm welcome sometimes :D",
-    "welcomeEnabled": "false"
+    "welcomeEnabled": "false",
+    "levelUpMessage": "false"
   },
 
   // PERMISSION LEVEL DEFINITIONS.
@@ -105,27 +106,27 @@ const config = {
       check: (message) => message.client.config.ownerID === message.author.id
     },
   ],
-  
+
   "version":{
     "bot":"0.1.0",
-    "server":"0.1.2"
+    "server":"0.1.2",
     },
    "user":{
-     "loggedin":false
+     "loggedin":false,
    },
    "invite":{
      "bot":"https://discordapp.com/api/oauth2/authorize?client_id=450754650417659916&permissions=8&scope=bot",
-     "server":"https://discord.gg/NpWC4F4"
+     "server":"https://discord.gg/NpWC4F4",
    },
    "status":{
-     "updateInterval":2
+     "updateInterval":2,
    },
    "server":{
      "route":"",
-     "pathToCSS":"/css/"
+     "pathToCSS":"/css/",
    },
    "bot":{
-     "name":"Avaline"
+     "name":"Avaline",
    },
    "href":{
      "title":"Avaline",
@@ -133,51 +134,51 @@ const config = {
        "url":"/",
        "serverURL":"/",
        "title":" - Home",
-       "view":"home"
+       "view":"home",
      },
      "about":{
        "url":"/about",
        "serverURL":"/about",
        "title":" - About",
-       "view":"about"
+       "view":"about",
      },
      "commands":{
        "url":"/commands",
        "serverURL":"/commands",
        "title":" - Commands",
-       "view":"soon"
+       "view":"soon",
      },
      "dashboard":{
        "home":{
          "url":"/dashboard",
          "serverURL":"/dashboard*",
          "title":" - Dashboard",
-         "view":"soon"
+         "view":"soon",
        },
        "two":{
          "url":"/dashboard/two",
          "serverURL":"/to-be-added",
          "title":" - Dashboard",
-         "view":"soon"
+         "view":"soon",
        },
        "three":{
          "url":"/dashboard/three",
          "serverURL":"/to-be-added",
          "title":" - Dashboard",
-         "view":"soon"
+         "view":"soon",
        }
      },
      "login":{
        "url":"/login",
        "serverURL":"/login",
        "title":" - Login",
-       "view":"soon"
+       "view":"soon",
      },
      "logout":{
        "url":"/logout",
        "serverURL":"/logout",
        "title":" - Logout",
-       "view":"soon"
+       "view":"soon",
      }
    }
 };
