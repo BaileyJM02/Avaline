@@ -6,10 +6,9 @@ exports.run = (client, message, args, level) => { // eslint-disable-line no-unus
   const duration = moment.duration(client.uptime).format(" D [days], H [hrs], m [mins], s [secs]");
   message.channel.send({
     embed: {
-      title: "STATISTICS", // Title of the embed
       description: "Here are some **awesome** stats!",
       author: {
-        name: client.user.username,
+        name: client.user.username + " - Statistics",// Title of the embed,
         icon_url: client.user.avatarURL
       },
       color: client.config.embedColor.main, // Color, either in hex (show), or a base-10 integer

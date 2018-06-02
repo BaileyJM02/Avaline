@@ -2,7 +2,6 @@ const Discord = require("discord.js");
 
 exports.run = async (client, message, args, level) => { // eslint-disable-line no-unused-vars
   // Get a filtered list (for this guild only), and convert to an array while we're at it.
-  console.log(client.points)
   const filtered = client.points.filterArray( p => p.guildID === message.guild.id );
 
   // Sort it to get the top results... well... at the top. Y'know.
@@ -13,12 +12,12 @@ exports.run = async (client, message, args, level) => { // eslint-disable-line n
 
   // Now shake it and show it! (as a nice embed, too!)
   const embed = new Discord.RichEmbed()
-    .setTitle("Leaderboard")
-    .setAuthor(client.user.username, client.user.avatarURL)
+    .setAuthor(client.user.username + " - Leaderboard", client.user.avatarURL)
     .setDescription("Our top 10 points leaders!")
     .setColor(0x00AE86);
   for(const data of top10) {
-    embed.addField(client.users.get(data.userID).tag, `${data.points} points (level ${data.level})`);
+    embed.addField(client.users.get(data.userID).tag, `${data.points} points (level ${data.level})`)
+    .setTimestamp(new Date());
   }
   return message.channel.send({embed});
 };

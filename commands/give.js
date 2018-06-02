@@ -4,7 +4,6 @@ exports.run = async (client, message, args, level, key) => {
 console.log(parseInt(args[1], 10))
   var pointsToAdd = parseInt(args[1], 10);
   
-  if(message.author.id === message.guild.ownerID) {
 
   const user = message.mentions.users.first() || client.users.get(args[0]);
   if(!user) return message.reply("You must mention someone or give their ID!");
@@ -22,18 +21,13 @@ console.log(parseInt(args[1], 10))
   } catch {
     message.channel.send(`**${user.tag}** hasn't sent any massages in this guild since the database was reset. This means they aren't in the database.\nEncourage them to send a message and you can then give them points.`);
   }
-
-} else {
-  return message.reply("You're not the boss of me, you can't do that!");
-}
-    
 };
 
 exports.conf = {
   enabled: true,
   guildOnly: true,
   aliases: [],
-  permLevel: "User"
+  permLevel: "Bot Owner"
 };
 
 exports.help = {

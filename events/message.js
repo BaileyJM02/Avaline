@@ -20,15 +20,19 @@ module.exports = (client, message) => {
       guildID: message.guild.id,
       points: 0,
       level: 0,
-      lastSeen: new Date()
+      lastSeen: Date.now()
     });
   };
   // Get only the current points for the user.
   let currentPoints = client.points.getProp(key, "points");
+  let lastSeen = client.points.getProp(key, "lastSeen")
 
-  // Increment the points and save them.
-  client.points.setProp(key, "points", ++currentPoints);
-
+  if (lastSeen <= new Date().setMinutes(5)) {
+    // Increment the points and save them.
+    client.points.setProp(key, "points", ++currentPoints);
+    //Update last seen *only* when given points
+    client.points.setProp(key, "lastSeen", new Date());
+  }
   // Calculate the user's current level
   const curLevel = Math.floor(0.1 * Math.sqrt(currentPoints));
   

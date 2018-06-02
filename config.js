@@ -4,6 +4,10 @@ const config = {
     "error": 13632027,
     "main": 9952555
   },
+  "invite":{
+    "bot":"https://discordapp.com/api/oauth2/authorize?client_id=450754650417659916&permissions=8&scope=bot",
+    "server":"https://discord.gg/NpWC4F4",
+  },
   // Bot Owner, level 10 by default. A User ID. Should never be anything else than the bot owner's ID.
   "ownerID": "398197113495748626",
 
