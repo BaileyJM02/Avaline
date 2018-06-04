@@ -77,6 +77,6 @@ exports.conf = {
 exports.help = {
   name: "stats",
   category: "Miscelaneous",
-  description: "Gives some useful bot statistics",
+  description: "Gives some useful bot statistics.",
   usage: "stats"
 };

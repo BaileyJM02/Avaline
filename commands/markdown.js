@@ -15,6 +15,6 @@ exports.conf = {
 exports.help = {
   name: "markdown",
   category: "Miscelaneous",
-  description: "Used to show MarkDown.",
+  description: "Allows you to post more MarkDown.",
   usage: "markdown"
 };

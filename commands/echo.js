@@ -19,6 +19,6 @@ exports.conf = {
 exports.help = {
   name: "echo",
   category: "Admin",
-  description: "Allows you to post something",
-  usage: "echo <title>; <content>"
+  description: "Allows you to post as the bot.",
+  usage: "echo <...title>; <...content>"
 };

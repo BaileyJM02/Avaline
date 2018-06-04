@@ -33,6 +33,6 @@ exports.conf = {
 exports.help = {
   name: "give",
   category: "Points",
-  description: "Allows you to send points.",
+  description: "Allows you to give points.",
   usage: "give <user> <amount>"
 };

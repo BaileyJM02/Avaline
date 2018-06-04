@@ -13,6 +13,6 @@ exports.conf = {
 exports.help = {
   name: "reset",
   category: "Admin",
-  description: "Removes **ALL** points from **global** database.",
+  description: "Removes **all** points from database.",
   usage: "reset"
 };

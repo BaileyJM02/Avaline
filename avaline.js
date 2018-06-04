@@ -12,7 +12,6 @@ const { promisify } = require("util");
 const readdir = promisify(require("fs").readdir);
 const Enmap = require("enmap");
 const EnmapLevel = require("enmap-level");
-
 const SQLite = require("enmap-sqlite");
 
 // This is your client. Some people call it `bot`, some people call it `self`,
@@ -31,6 +30,9 @@ client.config = require("./config.js");
 // Require our logger
 client.logger = require("./util/Logger");
 
+//Create cooldown
+client.talkedRecently = new Set();
+
 // Let's start by getting some useful functions that we'll use throughout
 // the bot, like logs and elevation features.
 require("./modules/functions.js")(client);
@@ -44,6 +46,10 @@ client.aliases = new Enmap();
 // essentially saves a collection to disk. This is great for per-server configs,
 // and makes things extremely easy for this purpose.
 client.settings = new Enmap({provider: new EnmapLevel({name: "settings"})});
+
+//Setup Music
+client.music;
+client.queue = new Enmap({provider: new SQLite({name: "queue"})});
 
 // We're doing real fancy node 8 async/await stuff here, and to do that
 // we need to wrap stuff in an anonymous function. It's annoying but it works.

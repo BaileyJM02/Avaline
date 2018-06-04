@@ -9,7 +9,7 @@ module.exports = (client, message) => {
   // If this is not in a DM, execute the points code.
   // We'll use the key often enough that simplifying it is worth the trouble.
   const key = `${message.guild.id}-${message.author.id}`;
-
+  
   // Triggers on new users we haven't seen before.
   if(!client.points.has(key)) {
     // We first check if the user's already in enmap. If not, we add him.
@@ -27,11 +27,11 @@ module.exports = (client, message) => {
   let currentPoints = client.points.getProp(key, "points");
   let lastSeen = client.points.getProp(key, "lastSeen")
 
-  if (lastSeen <= new Date().setMinutes(5)) {
+  if (lastSeen <= new Date().setMinutes(-5)) {
     // Increment the points and save them.
     client.points.setProp(key, "points", ++currentPoints);
     //Update last seen *only* when given points
-    client.points.setProp(key, "lastSeen", new Date());
+    client.points.setProp(key, "lastSeen", Date.now());
   }
   // Calculate the user's current level
   const curLevel = Math.floor(0.1 * Math.sqrt(currentPoints));
@@ -53,6 +53,21 @@ module.exports = (client, message) => {
   // Also good practice to ignore any message that does not start with our prefix,
   // which is set in the configuration file.
   if (message.content.indexOf(settings.prefix) !== 0) return;
+
+  // Checks if they have talked recently
+  if (client.talkedRecently.has(message.author.id)) {
+    /* 
+    You can change the nature of the cool down by changing the return to something else. 
+    REMINDER: You may need to add an else statement if you do not have any returns in this scope.
+    */
+    return message.reply("Please slow down!");
+  }
+  client.talkedRecently.add(message.author.id);
+  setTimeout(() => {
+    // Removes the user from the set after .5 seconds
+    client.talkedRecently.delete(message.author.id);
+  }, 1500);
+  // Adds the user to the set so that they can't talk for 2.5 seconds
 
   // Here we separate our "command" name, and our "arguments" for the command.
   // e.g. if we have the message "+say Is this the real life?" , we'll get the following:

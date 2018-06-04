@@ -34,6 +34,6 @@ exports.conf = {
 exports.help = {
   name: "invite",
   category: "Miscelaneous",
-  description: "Show's invite links for Avaline and support server.",
+  description: "Show's invite links for Avaline and the support server.",
   usage: "invite"
 };
