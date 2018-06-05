@@ -13,6 +13,7 @@ exports.run = async (client, message, args, level, key) => { // eslint-disable-l
       client.queue[message.guild.id] = {},
       client.queue[message.guild.id].playing = false,
       client.queue[message.guild.id].songs = [];
+    } else {
       client.queue[message.guild.id].songs.push({url: url, title: info.title, requester: message.author.username});
       message.channel.send(`added **${info.title}** to the queue`);
     }

@@ -4,6 +4,14 @@ exports.run = async (client, message, args, level, key) => { // eslint-disable-l
   if (client.queue[`${message.guild.id}`] === undefined) {
     return message.channel.send(`Add some songs to the queue first with **${message.settings.prefix}add**`);
   }
+
+  switch (args[0]) {
+    case "delete":
+    case "clear":
+      client.queue[message.guild.id] = undefined;
+      return message.channel.send(`Queue cleared. Add some songs with **${message.settings.prefix}add**`);
+      break;
+  }
   
     let tosend = [];
 
@@ -23,5 +31,5 @@ exports.help = {
   name: "queue",
   category: "Music",
   description: "Allows you to see what songs are queued.",
-  usage: "queue"
+  usage: "queue [clear]"
 };

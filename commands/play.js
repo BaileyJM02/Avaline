@@ -18,7 +18,7 @@ exports.run = async (client, message, args, level, key) => { // eslint-disable-l
   (function play(song) {
     console.log(song);
     if (song === undefined) {
-      return message.channel.send('Queue is empty').then(() => {
+      return message.channel.send('**Queue is empty**, add some more songs with **a!add**').then(() => {
         client.queue[message.guild.id].playing = false;
         message.member.voiceChannel.leave();
       });
@@ -52,6 +52,6 @@ exports.conf = {
 exports.help = {
   name: "play",
   category: "Music",
-  description: "Allows you to see your level and points.",
+  description: "Allows you to play the songs queued.",
   usage: "play"
 };
