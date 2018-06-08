@@ -39,6 +39,11 @@ const config = {
     "globalPoints": "true"
   },
 
+  "adminSettings" : {
+    "botGuild": "450745183357894667",
+    "botModLogChannel": "mod-log"
+  },
+
   // PERMISSION LEVEL DEFINITIONS.
 
   permLevels: [

@@ -13,13 +13,24 @@ const readdir = promisify(require("fs").readdir);
 const Enmap = require("enmap");
 const EnmapLevel = require("enmap-level");
 const SQLite = require("enmap-sqlite");
+const fsrr = require("fs-readdir-recursive")
+const Cleverbot = require("cleverbot.io");
 
 // This is your client. Some people call it `bot`, some people call it `self`,
 // some might call it `cootchie`. Either way, when you see `client.something`,
 // or `bot.something`, this is what we're refering to. Your client.
 const client = new Discord.Client();
 
-//Setup points
+// Cleverbot
+client.clbot = new Cleverbot('jJpun6EDcTWrqAn2','9iFHqxV7sZv8zK9Mi4bviGtPTqdZTtuk');
+
+client.clbot.setNick("smartAvaline");
+
+client.clbot.create(function (err, session) {
+  client.logger.log(`Starting: Smart Avaline. 👌`);
+});
+
+// Setup points
 client.points = new Enmap({provider: new SQLite({name: "points"})});
 
 // Here we load the config file that contains our token and our prefix values.
@@ -58,7 +69,8 @@ const init = async () => {
 
   // Here we load **commands** into memory, as a collection, so they're accessible
   // here and everywhere else.
-  const cmdFiles = await readdir("./commands/");
+  // options is optional
+  const cmdFiles = await fsrr('./commands/');
   client.logger.log(`Loading a total of ${cmdFiles.length} commands.`);
   cmdFiles.forEach(f => {
     if (!f.endsWith(".js")) return;
@@ -67,7 +79,7 @@ const init = async () => {
   });
 
   // Then we load events, which will include our message and ready event.
-  const evtFiles = await readdir("./events/");
+  const evtFiles = await fsrr('./events/');
   client.logger.log(`Loading a total of ${evtFiles.length} events.`);
   evtFiles.forEach(file => {
     const eventName = file.split(".")[0];
@@ -85,6 +97,9 @@ const init = async () => {
   }
 
   // Here we login the client.
+
+  
+  client.config.token = client.config.betaToken;
   client.login(client.config.token);
 
 // End top-level async/await function.
