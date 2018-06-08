@@ -47,6 +47,7 @@ module.exports = (client, message) => {
   const cmd = client.commands.get(command) || client.commands.get(client.aliases.get(command));
   // using this const varName = thing OR otherthign; is a pretty efficient
   // and clean way to grab one of 2 values!
+
   if (!cmd) return;
 
   // Some commands may not be useable in DMs. This check prevents those commands from running
@@ -64,6 +65,7 @@ module.exports = (client, message) => {
     }
   }
 
+
   // To simplify message arguments, the author's level is now put on level (not member so it is supported in DMs)
   // The "level" command module argument will be deprecated in the future.
   message.author.permLevel = level;
@@ -74,6 +76,7 @@ module.exports = (client, message) => {
   }
   // If the command exists, **AND** the user has permission, run it.
   client.logger.cmd(`[CMD] ${client.config.permLevels.find(l => l.level === level).name} ${message.author.username} (${message.author.id}) ran command ${cmd.help.name}`);
+  
 
   // If this is not in a DM, execute the points code.
   // We'll use the key often enough that simplifying it is worth the trouble.

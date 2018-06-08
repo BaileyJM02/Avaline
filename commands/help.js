@@ -6,6 +6,8 @@ a command, it is not shown to them. If a command name is given with the
 help command, its extended help is shown.
 */
 
+const Discord = require("discord.js");
+
 exports.run = (client, message, args, level) => {
   // If no specific command is called, show all filtered commands.
   if (!args[0]) {
@@ -16,26 +18,52 @@ exports.run = (client, message, args, level) => {
     // This make the help commands "aligned" in the output.
     const commandNames = myCommands.keyArray();
     const longest = commandNames.reduce((long, str) => Math.max(long, str.length), 0);
-
     let currentCategory = "";
-    let output = `= Command List =\n\n[Use ${message.settings.prefix}help <commandname> for details]\n`;
+    let output = "start";
+    let title = "starts";
+    let start = true;
     const sorted = myCommands.array().sort((p, c) => p.help.category > c.help.category ? 1 :  p.help.name > c.help.name && p.help.category === c.help.category ? 1 : -1 );
+
+    const embed = new Discord.RichEmbed()
+      .setAuthor(client.user.username + " - Command List", client.user.avatarURL)
+      .setDescription(`Use \`${message.settings.prefix}help <commandname>\` for details.`)
+      .setColor(client.config.embedColor.main);
+
     sorted.forEach( c => {
       const cat = c.help.category.toProperCase();
       if (currentCategory !== cat) {
-        output += `\u200b\n== ${cat} ==\n`;
+        if (start == false) {
+          embed.addField(title, output)        
+        }
+        title = `${cat}`;
+        output = "";
         currentCategory = cat;
+        start = false;
       }
-      output += `${message.settings.prefix}${c.help.name}${" ".repeat(longest - c.help.name.length)} :: ${c.help.description}\n`;
+      output += `-   **${message.settings.prefix}${c.help.name}** \u21E2 ${c.help.description}\n`;
     });
-    message.channel.send(output, {code: "asciidoc", split: { char: "\u200b" }});
+    //Add final output from 'forEach'
+    embed.addField(title, output) 
+    embed.setTimestamp(new Date());
+    message.channel.send({embed});
   } else {
     // Show individual command's help.
     let command = args[0];
     if (client.commands.has(command)) {
       command = client.commands.get(command);
       if (level < client.levelCache[command.conf.permLevel]) return;
-      message.channel.send(`= ${command.help.name} = \n${command.help.description}\nusage:: ${command.help.usage}\naliases:: ${command.conf.aliases.join(", ")}\n= ${command.help.name} =`, {code:"asciidoc"});
+
+      if (!command.conf.aliases.join(", ")) {
+        command.conf.aliases = ["*none*"]
+      }
+
+      const embed = new Discord.RichEmbed()
+        .setAuthor(`${client.user.username} - Command List - ${command.help.name}`, client.user.avatarURL)
+        .setDescription(`${command.help.description}\n\n**Usage** \u21E2  ${message.settings.prefix}${command.help.usage}\n**Aliases** \u21E2 ${command.conf.aliases.join(", ")}`)
+        .setColor(client.config.embedColor.main)
+        .setTimestamp(new Date());
+
+      message.channel.send({embed});
     }
   }
 };

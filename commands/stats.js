@@ -15,7 +15,7 @@ exports.run = (client, message, args, level) => { // eslint-disable-line no-unus
       fields: [ // Array of field objects
         {
           name: "Mem Usage", // Field title
-          value: (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2), // Field
+          value: (process.memoryUsage().heapUsed / 1024 / 1024).toFixed(2)+" MB", // Field
           inline: true // Whether you want multiple fields in same line
         },
         {
@@ -45,7 +45,7 @@ exports.run = (client, message, args, level) => { // eslint-disable-line no-unus
         },
         {
           name: "Shards",
-          value: "*N/A*",
+          value: client.options.shardCount+1,
           inline: true
         },
         {

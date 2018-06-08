@@ -14,7 +14,7 @@ exports.run = async (client, message, args, level) => { // eslint-disable-line n
   const embed = new Discord.RichEmbed()
     .setAuthor(client.user.username + " - Leaderboard", client.user.avatarURL)
     .setDescription("Our top 10 points leaders!")
-    .setColor(0x00AE86);
+    .setColor(client.config.embedColor.main);
   for(const data of top10) {
     embed.addField(client.users.get(data.userID).tag, `${data.points} points (level ${data.level})`)
     .setTimestamp(new Date());
