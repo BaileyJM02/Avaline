@@ -71,3 +71,7 @@ typings/
 package-lock.json
 Avaline.code-workspace
 node_modules/enmap/package.json
+node_modules/enmap/package.json
+node_modules/enmap/package.json
+node_modules/enmap/src/index.js
+node_modules/moment-duration-format/package.json
