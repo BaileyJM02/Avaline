@@ -1,4 +1,4 @@
-const web = require("./web/server.js")
+// const dashboard = require("./dashboard/server.js")
 
 // This will check if the node version you are running is the required
 // Node version, if it isn't it will throw the following error to inform
@@ -33,6 +33,9 @@ client.clbot.create(function (err, session) {
 // Setup points
 client.points = new Enmap({provider: new SQLite({name: "points"})});
 
+// Setup points
+client.openRoles = new Enmap({provider: new SQLite({name: "openRoles"})});
+
 // Here we load the config file that contains our token and our prefix values.
 client.config = require("./config.js");
 // client.config.token contains the bot's token
@@ -60,7 +63,7 @@ client.settings = new Enmap({provider: new EnmapLevel({name: "settings"})});
 
 //Setup Music
 client.music;
-client.queue = new Enmap({provider: new SQLite({name: "queue"})});
+client.playlists = new Discord.Collection();
 
 // We're doing real fancy node 8 async/await stuff here, and to do that
 // we need to wrap stuff in an anonymous function. It's annoying but it works.
@@ -98,8 +101,8 @@ const init = async () => {
 
   // Here we login the client.
 
-  
-  client.config.token = client.config.betaToken;
+  // client.config.token = client.config.betaToken;
+
   client.login(client.config.token);
 
 // End top-level async/await function.
