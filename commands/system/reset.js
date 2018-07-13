@@ -1,6 +1,11 @@
-exports.run = async (client, message, args, level) => { // eslint-disable-line no-unused-vars
-  client.points.deleteAll()
-  message.channel.send(`Points reset **globally**.`);
+exports.run = async (client, message, [...db], level) => { // eslint-disable-line no-unused-vars
+
+  try {
+    client[db].deleteAll()
+    message.channel.send(`${db} reset **globally**!`);
+  } catch(error) {
+    message.channel.send(`Failed to reset ${db}.\n\`\`\`xl\n${error}\`\`\``);
+  }
 
 };
 exports.conf = {
