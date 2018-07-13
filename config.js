@@ -1,15 +1,21 @@
 const config = {
-  "port": 8080,
+  "youtubeAPIkey": "AIzaSyBm1igdV_8GnydVK0ljqiOmqxqnSFOxc7w",
+
   "embedColor" : {
     "error": 13632027,
     "main": 9952555
   },
+  
   "invite":{
     "bot":"https://discordapp.com/api/oauth2/authorize?client_id=450754650417659916&permissions=8&scope=bot",
     "server":"https://discord.gg/NpWC4F4",
   },
   // Bot Owner, level 10 by default. A User ID. Should never be anything else than the bot owner's ID.
   "ownerID": "398197113495748626",
+
+  // "clientID": "450754650417659916",
+  // Beta
+  "clientID": "451994540300042240",
 
   // Bot Admins, level 9 by default. Array of user ID strings.
   "admins": ["162622228146421761", "240768462887190528"],
@@ -27,21 +33,138 @@ const config = {
   // VIA COMMANDS IN THE GUILD.
   
   "defaultSettings" : {
-    "prefix": "a!",
-    "modLogChannel": "mod-log",
-    "modRole": "Moderator",
-    "adminRole": "Administrator",
-    "systemNotice": "true", // This gives a notice when a user tries to run a command that they do not have permission to use.
-    "welcomeChannel": "general",
-    "welcomeMessage": "Say hello to {{user}}, everyone! We all need a warm welcome sometimes :smile:",
-    "welcomeEnabled": "false",
-    "levelUpMessage": "false",
-    "globalPoints": "true"
+    "prefix": {
+      "form": {
+        "type": "text",
+        "options": ["Enabled", "Disabled"],
+      },
+      "name": "Prefix",
+      "value": "a!",
+      "description": "Allows you to set a custom prefix.",
+      "category": "general"
+    },
+    "modLogChannel":{
+      "form": {
+        "type": "channel",
+        "options": ["Enabled", "Disabled"],
+      },
+      "name": "Moderation Log Channel",
+      "value": "mod-log",
+      "description": "Sets the logging channel for moderation events.",
+      "category": "moderation"
+    },
+    "logsChannel":{
+      "form": {
+        "type": "channel",
+        "options": ["Enabled", "Disabled"],
+      },
+      "name": "Log Channel",
+      "value": "logs",
+      "description": "Sets the logging channel for events.",
+      "category": "moderation"
+    },
+    "logs":{
+      "form": {
+        "type": "radio",
+        "options": ["Enabled", "Disabled"],
+      },
+      "name": "Logs Enabled",
+      "value": "Enabled",
+      "description": "Sets whether logs are enabled or not.",
+      "category": "moderation"
+    },
+    "modRole": {
+      "form": {
+        "type": "role",
+        "options": ["Enabled", "Disabled"],
+      },
+      "name": "Moderator Role",
+      "value": "Moderator",
+      "description": "Sets the server moderator role, used for privileging moderation commands. This should be the name of the role.",
+      "category": "moderation"
+    },
+    "adminRole": {
+      "form": {
+        "type": "role",
+        "options": ["Enabled", "Disabled"],
+      },
+      "name": "Administrator Role",
+      "value": "Administrator",
+      "description": "Sets the server administrator role, used for privileging moderation commands. This should be the name of the role.",
+      "category": "moderation"
+    },
+    // This gives a notice when a user tries to run a command that they do not have permission to use.
+    "systemNotice": {
+      "form": {
+        "type": "radio",
+        "options": ["Enabled", "Disabled"],
+      },
+      "name": "Systen Notice",
+      "value": "Enabled", 
+      "description": "I'm not quite sure?",
+      "category": "moderation"
+    },
+    "welcomeChannel": {
+      "form": {
+        "type": "channel",
+        "options": ["Enabled", "Disabled"],
+      },
+      "name": "Welcome Channel",
+      "value": "general",
+      "description": "Sets the channel where welcome messages will be shown.",
+      "category": "welcome"
+    },
+    "welcomeMessage": {
+      "form": {
+        "type": "text",
+        "options": ["Enabled", "Disabled"],
+      },
+      "name": "Welcome Message",
+      "value": "Say hello to {{user}}, everyone! We all need a warm welcome sometimes :smile:",
+      "description": "The welcome message to be shown when a new user joins.",
+      "category": "welcome"
+    },
+    "welcomeEnabled": {
+      "form": {
+        "type": "radio",
+        "options": ["Enabled", "Disabled"],
+      },
+      "name": "Welcome Message Enabled",
+      "value": "Enabled",
+      "description": "Sets whether you want welcome messages to be shown.",
+      "category": "welcome"
+    },
+    "levelUpMessage": {
+      "form": {
+        "type": "radio",
+        "options": ["Enabled", "Disabled"],
+      },
+      "name": "Level Up Message Enabled",
+      "value": "Disabled",
+      "description": "Sets whether you want level-up messages to be shown.",
+      "category": "points"
+    },
+    "globalPoints": {
+      "form": {
+        "type": "radio",
+        "options": ["Enabled", "Disabled"],
+      },
+      "name": "Global Points",
+      "value": "Enabled",
+      "description": "Sets whether the points earned on this server can be used globally.",
+      "category": "points"
+    },
+  },
+
+  "autoRoles" : {
   },
 
   "adminSettings" : {
     "botGuild": "450745183357894667",
-    "botModLogChannel": "mod-log"
+    "botModLogChannel": "mod-log",
+    "botGuildLogChannel": "guild-log",
+    "botErrorLogChannel": "errors",
+    "botErrorLogChannelID": "456142019673325568"
   },
 
   // PERMISSION LEVEL DEFINITIONS.
@@ -117,80 +240,15 @@ const config = {
     },
   ],
 
-  "version":{
-    "bot":"0.1.0",
-    "server":"0.1.2",
-    },
-   "user":{
-     "loggedin":false,
-   },
-   "invite":{
-     "bot":"https://discordapp.com/api/oauth2/authorize?client_id=450754650417659916&permissions=8&scope=bot",
-     "server":"https://discord.gg/NpWC4F4",
-   },
-   "status":{
-     "updateInterval":2,
-   },
-   "server":{
-     "route":"",
-     "pathToCSS":"/css/",
-   },
-   "bot":{
-     "name":"Avaline",
-   },
-   "href":{
-     "title":"Avaline",
-     "home":{
-       "url":"/",
-       "serverURL":"/",
-       "title":" - Home",
-       "view":"home",
-     },
-     "about":{
-       "url":"/about",
-       "serverURL":"/about",
-       "title":" - About",
-       "view":"about",
-     },
-     "commands":{
-       "url":"/commands",
-       "serverURL":"/commands",
-       "title":" - Commands",
-       "view":"soon",
-     },
-     "dashboard":{
-       "home":{
-         "url":"/dashboard",
-         "serverURL":"/dashboard*",
-         "title":" - Dashboard",
-         "view":"soon",
-       },
-       "two":{
-         "url":"/dashboard/two",
-         "serverURL":"/to-be-added",
-         "title":" - Dashboard",
-         "view":"soon",
-       },
-       "three":{
-         "url":"/dashboard/three",
-         "serverURL":"/to-be-added",
-         "title":" - Dashboard",
-         "view":"soon",
-       }
-     },
-     "login":{
-       "url":"/login",
-       "serverURL":"/login",
-       "title":" - Login",
-       "view":"soon",
-     },
-     "logout":{
-       "url":"/logout",
-       "serverURL":"/logout",
-       "title":" - Logout",
-       "view":"soon",
-     }
-   }
+  "dashboard" : {
+    "oauthSecret": "nnVpR-D_5ZL_4hp9VEgJevajNG8MUngM",
+    // "oauthSecret": "bv_dmukRXhz4BczDi58MFCFpWItVaij4",
+    "callbackURL": "http://avaline.co.uk/callback",
+    "sessionSecret": "tangoalpha",
+    "domain": "avaline.co.uk",
+    "port": 8200
+  },
+
 };
 
 module.exports = config;
