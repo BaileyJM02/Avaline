@@ -1,0 +1,103 @@
+<%- include('../blocks/header', {bot, user, path}) %>
+  <h2>Server Management</h2>
+  <div class="row">
+    <div class="col-sm-3">
+      <%- include('../blocks/guild-card', {guild}) %>
+    </div>
+    <div class="col-sm">
+      <%- include('../blocks/guild-nav.ejs', {active: "manage", guild}) %>
+      <form method="post">
+          
+        <% const settings = bot.settings.get(guild.id);
+            const defaults = bot.config.defaultSettings;
+            for (const key in settings) { %>
+              <div class="form-group row">
+                  <label class="col-sm-2 col-form-label" for="<%= key %>">
+                    <%= settings[key].name %>
+                  </label>
+                  <div class="col-sm-8">
+                    <% if (settings[key].form.type == "radio") { %>
+                      <% settings[key].form.options.forEach(function(option) {%>
+                        <div class="form-check">
+                        <input class="form-check-input" type="radio" name="<%= key %>" id="<%= key+option %>" value="<%= option %>"
+                        <% if (option == settings[key].value) { %>checked<% }%>>
+                        <label class="form-check-label" for="<%= key+option %>"><%= option %></label>
+                        </div>
+                      <% }) %>
+                      <% } else if (settings[key].form.type == "channel") { %>
+                        <select class="form-control">
+
+                        <% guild.channels.forEach(function(channel) {%>
+
+                          <option <% if (channel.name == settings[key].value) { %>selected<% }%>><%= channel.name %></option>
+                        <% }) %>
+                      </optgroup>
+                      </select>
+                      <% } else if (settings[key].form.type == "role") { %>
+                        <select class="form-control">
+                        <% guild.roles.forEach(function(role) {%>
+                          <option <% if (role.name == settings[key].value) { %>selected<% }%>><%= role.name %></option>
+                        <% }) %>
+                      </select>
+                    <% } else { %>
+                    <input type="text" class="form-control" style="text-align: left;" name="<%= key %>" id="<%= key %>" value="<%= settings[key].value %>">
+                    <% } %>
+                    <small id="<%= key %>Help" class="form-text text-muted"><%= settings[key].description %></small>
+                  </div>
+                </div>
+         
+          <% } %>
+          <% for (const key in defaults) {
+            if (!(settings === null)) { 
+              if (key in settings) {
+            }} else {
+          %>
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label" for="<%= key %>">
+              <%= defaults[key].name %>
+            </label>
+            <div class="col-sm-8">
+              <% if (defaults[key].form.type == "radio") { %>
+                <% defaults[key].form.options.forEach(function(option) {%>
+                  <div class="form-check">
+                  <input class="form-check-input" type="radio" name="<%= key %>" id="<%= key+option %>" value="<%= option %>"
+                  <% if (option == defaults[key].value) { %>checked<% }%>>
+                  <label class="form-check-label" for="<%= key+option %>"><%= option %></label>
+                  </div>
+                <% }) %>
+                <% } else if (defaults[key].form.type == "channel") { %>
+                  <select class="form-control">
+                      <!-- <optgroup label="===  Titles not fully accurate!  ==="></optgroup> -->
+                  <% guild.channels.forEach(function(channel) {%>
+                    <!-- <% if (channel.type == "category") { %><optgroup label="<%= channel.name %>"><% } else if (channel.type == "text") {%> -->
+                    <option <% if (channel.name == defaults[key].value) { %>selected<% }%>><%= channel.name %></option>
+                  <% }}) %>
+                </optgroup>
+                </select>
+                <% } else if (defaults[key].form.type == "role") { %>
+                  <select class="form-control">
+                  <% guild.roles.forEach(function(role) {%>
+                    <option <% if (role.name == defaults[key].value) { %>selected<% }%>><%= role.name %></option>
+                  <% }) %>
+                </select>
+              <% } else { %>
+              <input type="text" class="form-control" style="text-align: left;" name="<%= key %>" id="<%= key %>" value="<%= defaults[key].value %>">
+              <% } %>
+              <small id="<%= key %>Help" class="form-text text-muted"><%= defaults[key].description %></small>
+            </div>
+          </div>
+       
+        <% }} %>
+        <div style="width: 100%; text-align: right; margin-top: 20px;">
+          <a class="btn btn-danger" data-toggle="modal" data-target="#settingsResetModal" role="button">Reset Defaults <i class="fa fa-fw fa-cogs" aria-hidden="true"></i></a>
+          <button type="submit" class="btn btn-primary">Save Changes <i class="fa fa-fw fa-save" aria-hidden="true"></i></button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <% include ../blocks/guild-modals %>
+  <script type="text/javascript">
+    var ts = parseInt($('#guildCreate').text());
+    $('#guildCreate').html(`${moment(ts).format('MMMM Do YYYY (h:mm a)')}`);
+  </script>
+<% include ../blocks/footer %>
