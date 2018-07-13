@@ -26,7 +26,7 @@ exports.run = (client, message, args, level) => {
 
     const embed = new Discord.RichEmbed()
       .setAuthor(client.user.username + " - Command List", client.user.avatarURL)
-      .setDescription(`Use \`${message.settings.prefix}help <commandname>\` for details.`)
+      .setDescription(`Use \`${message.settings.prefix.value}help <commandname>\` for details.`)
       .setColor(client.config.embedColor.main);
 
     sorted.forEach( c => {
@@ -40,10 +40,12 @@ exports.run = (client, message, args, level) => {
         currentCategory = cat;
         start = false;
       }
-      output += `-   **${message.settings.prefix}${c.help.name}** \u21E2 ${c.help.description}\n`;
+      output += `\`${c.help.name}\` `;
     });
+    
     //Add final output from 'forEach'
-    embed.addField(title, output) 
+    embed.addField(title, output)
+    embed.setFooter(`${myCommands.size} commands`); 
     embed.setTimestamp(new Date());
     message.channel.send({embed});
   } else {
@@ -59,7 +61,7 @@ exports.run = (client, message, args, level) => {
 
       const embed = new Discord.RichEmbed()
         .setAuthor(`${client.user.username} - Command List - ${command.help.name}`, client.user.avatarURL)
-        .setDescription(`${command.help.description}\n\n**Usage** \u21E2  ${message.settings.prefix}${command.help.usage}\n**Aliases** \u21E2 ${command.conf.aliases.join(", ")}`)
+        .setDescription(`${command.help.description}\n\n**Usage** \u21E2  ${message.settings.prefix.value}${command.help.usage}\n**Aliases** \u21E2 ${command.conf.aliases.join(", ")}`)
         .setColor(client.config.embedColor.main)
         .setTimestamp(new Date());
 

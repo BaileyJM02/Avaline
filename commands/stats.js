@@ -1,9 +1,12 @@
+const Discord = require('discord.js');
 const { version } = require("discord.js");
 const moment = require("moment");
+const os = require('os');
 require("moment-duration-format");
 
-exports.run = (client, message, args, level) => { // eslint-disable-line no-unused-vars
+exports.run = async (client, message, args, level) => { // eslint-disable-line no-unused-vars
   const duration = moment.duration(client.uptime).format(" D [days], H [hrs], m [mins], s [secs]");
+
   message.channel.send({
     embed: {
       description: "Here are some **awesome** stats!",
@@ -19,33 +22,53 @@ exports.run = (client, message, args, level) => { // eslint-disable-line no-unus
           inline: true // Whether you want multiple fields in same line
         },
         {
-          name: "Uptime",
-          value: duration,
-          inline: true
+          name: "CPU Load", // Field title
+          value: os.loadavg()[0].toFixed(2)+"%", // Field
+          inline: true // Whether you want multiple fields in same line
         },
         {
           name: "Users",
-          value: client.users.size.toLocaleString(),
+          value: 
+          await client.shard.broadcastEval('this.users.size')
+          .then(results => {
+            return results.reduce((prev, val) => prev + val, 0).toLocaleString();
+            })
+          .catch(console.error),
           inline: true
         },
         {
           name: "Servers",
-          value: client.guilds.size.toLocaleString(),
+          value: 
+          await client.shard.broadcastEval('this.guilds.size')
+          .then(results => {
+            return results.reduce((prev, val) => prev + val, 0).toLocaleString();
+            })
+          .catch(console.error),
           inline: true
         },
         {
           name: "Channels",
-          value: client.channels.size.toLocaleString(),
+          value:
+            await client.shard.broadcastEval('this.channels.size')
+            .then(results => {
+              return results.reduce((prev, val) => prev + val, 0).toLocaleString();
+              })
+            .catch(console.error),
           inline: true
         },
         {
           name: "Voice Connections",
-          value: client.voiceConnections.size.toLocaleString(),
+          value: 
+          await client.shard.broadcastEval('this.voiceConnections.size')
+          .then(results => {
+            return results.reduce((prev, val) => prev + val, 0).toLocaleString();
+            })
+          .catch(console.error),
           inline: true
         },
         {
           name: "Shards",
-          value: client.options.shardCount+1,
+          value: client.options.shardCount,
           inline: true
         },
         {
@@ -57,6 +80,11 @@ exports.run = (client, message, args, level) => { // eslint-disable-line no-unus
           name: "Node",
           value: process.version,
           inline: true
+        },
+        {
+          name: "Uptime",
+          value: duration,
+          inline: false
         },
       ],
       timestamp: new Date(),

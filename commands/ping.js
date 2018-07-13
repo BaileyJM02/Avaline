@@ -1,6 +1,9 @@
+var pongs = ["Pong"]
+var randomPing = Math.floor(Math.random() * pongs.length);
+
 exports.run = async (client, message, args, level) => { // eslint-disable-line no-unused-vars
-  const msg = await message.channel.send("Ping?");
-  msg.edit(`Pong! Latency is ${msg.createdTimestamp - message.createdTimestamp}ms. API Latency is ${Math.round(client.ping)}ms`);
+  const msg = await message.channel.send("Pong?");
+  msg.edit(`${pongs[randomPing]}! Latency is ${msg.createdTimestamp - message.createdTimestamp}ms. API Latency is ${Math.round(client.ping)}ms`);
 };
 
 exports.conf = {
