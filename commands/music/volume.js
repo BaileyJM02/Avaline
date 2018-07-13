@@ -1,26 +1,17 @@
-exports.run = async (client, message, args, level) => { // eslint-disable-line no-unused-vars
-  if(!client.musicDispatcher || client.musicDispatcher === undefined) {
-    return message.channel.send("I couldn't do that, no music playing.");
-  }
-  if (args[0] === undefined) {
-    return message.channel.send(`Volume: ${Math.round(client.musicDispatcher.volume*50)}%`);
-  }
-  try {
-    vol = parseInt(args[0], 10)
-  } catch {
-    return message.channel.send("I couldn't do that, value needs to be between **0** and **100**.");
+exports.run = async (client, message, args, level) => {
+  const voiceChannel = message.member.voiceChannel ? message.member.voiceChannel : (message.guild.voiceConnection ? message.guild.voiceConnection.channel : null);
+  if (!voiceChannel || (!message.member.voiceChannel && message.author.permLevel < 2)) {
+    return message.reply("Please be in a voice channel first!");
   }
 
-  if ((vol > 100) || (vol < 0)) {
-    return message.channel.send("I couldn't do that, value needs to be between **0** and **100**.");
-  }
+  const vol = args.join(" ");
+  if (!vol) return message.channel.send(`Current volume is set at ${client.playlists.get(message.guild.id).dispatcher.volume * 100}%`);
+  if (vol < 0 || vol > 100) return message.reply("Volume must be a value between 0% and 100%");
 
-  client.musicDispatcher.setVolume(vol/50);
-  message.channel.send(`Volume is now: ${Math.round(client.musicDispatcher.volume*50)}%`);
-
-
-
-
+  message.channel.send(`Setting volume to ${vol}%`).then(()=> {
+    message.guild.voiceConnection.volume = vol / 100;
+    client.playlists.get(message.guild.id).dispatcher.setVolume(vol / 100);
+  });
 };
 
 exports.conf = {
@@ -33,6 +24,6 @@ exports.conf = {
 exports.help = {
   name: "volume",
   category: "Music",
-  description: "View or set Avaline's volume output.",
+  description: "Sets the streams volume.",
   usage: "volume [0-100]"
 };

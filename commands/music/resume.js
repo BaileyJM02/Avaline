@@ -1,11 +1,12 @@
-exports.run = async (client, message, args, level) => { // eslint-disable-line no-unused-vars
-  if(!client.musicDispatcher || client.musicDispatcher === undefined) {
-    return message.channel.send("I couldn't do that, no music playing.")
+exports.run = async (client, message, args, level) => {
+  const voiceChannel = message.member.voiceChannel ? message.member.voiceChannel : (message.guild.voiceConnection ? message.guild.voiceConnection.channel : null);
+  if (!voiceChannel || (!message.member.voiceChannel && message.author.permLevel < 2)) {
+    return message.reply("Please be in a voice channel first!");
   }
-  message.channel.send(`:play_button: Music **resumed**.`)
-  client.musicDispatcher.resume();
-};
-
+  if (!client.playlists.get(message.guild.id).dispatcher.paused) return message.reply("Playback has not been paused.");
+  message.channel.send("Resuming playback");
+  client.playlists.get(message.guild.id).dispatcher.resume();
+}
 exports.conf = {
   enabled: true,
   guildOnly: true,
@@ -16,6 +17,6 @@ exports.conf = {
 exports.help = {
   name: "resume",
   category: "Music",
-  description: "Allows you to resume the current song that *was* playing.",
+  description: "Resumes the audio stream.",
   usage: "resume"
 };

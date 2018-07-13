@@ -1,4 +1,5 @@
-exports.run = async (client, message, args, level) => { // eslint-disable-line no-unused-vars
+exports.run = async (client, message, args, level) => {
+  
   if(!client.musicDispatcher || client.musicDispatcher === undefined) {
     return message.channel.send("I couldn't do that, no music playing.")
   }

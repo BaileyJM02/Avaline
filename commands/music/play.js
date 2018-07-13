@@ -1,45 +1,85 @@
-const yt = require('ytdl-core');
-const Discord = require('discord.js');
+const Discord = require("discord.js");
+const embed = new Discord.RichEmbed();
+const config = require("../../config.js");
+const ytapi = require("simple-youtube-api");
+const { parse } = require("url");
+const youtube = new ytapi(config.youtubeAPIkey);
 
-exports.run = async (client, message, args, level, key) => { // eslint-disable-line no-unused-vars
-  if (client.queue[message.guild.id] === undefined) {
-    return message.channel.send(`Add some songs to the queue first with **${message.settings.prefix}add**`);
-  }
-  if (!message.guild.voiceConnection) {
-    return message.channel.send(`Add add me to your voice channel first with **${message.settings.prefix}join**`)
-  }
-  if (client.queue[message.guild.id].playing) {
-    return message.channel.send('Already Playing');
+exports.run = async (client, message, args, level, key) => {
+  const song = args.join(" ");
+  if (!song.length) return message.reply("You need to supply a YouTube URL or a search term.");
+
+  const voiceChannel = message.member.voiceChannel ? message.member.voiceChannel : (message.guild.voiceConnection ? message.guild.voiceConnection.channel : null);
+  if (!voiceChannel || (!message.member.voiceChannel && level < 2)) {
+    return message.reply("Please be in a voice channel first!");
   }
 
-  client.queue[message.guild.id].playing = true;
+  if (!client.playlists.has(message.guild.id)) {
+    var firstSong = true;
+    client.playlists.set(message.guild.id, {
+      dispatcher: null,
+      queue: [],
+      connection: null,
+      position: -1
+    });
+    await voiceChannel.join();
+  }
 
-  console.log(client.queue);
-  (function play(song) {
-    console.log(song);
-    if (song === undefined) {
-      return message.channel.send('**Queue is empty**, add some more songs with **a!add**').then(() => {
-        client.queue[message.guild.id].playing = false;
-        message.member.voiceChannel.leave();
-      });
+  let id = (() => {
+    const parsed = parse(song, true);
+    if (/^(www\.)?youtube\.com/.test(parsed.hostname)) {
+      return parsed.query.v;
+    } else if (/^(www\.)?youtu\.be/.test(parsed.hostname)) {
+      return parsed.pathname.slice(1);
     }
-    message.channel.send(`Playing: **${song.title}** as requested by: **${song.requester}**`);
+  })();
 
-    client.musicDispatcher = message.guild.voiceConnection.playStream(yt(song.url, {
-      audioonly: true
-    }), {
-      passes : client.passes
-    });
+  if (!id) {
+    const results = await youtube.searchVideos(song, 4);
+    id = results[0].id;
+  }
 
-    client.musicDispatcher.on('end', () => {
-      play(client.queue[message.guild.id].songs.shift());
-    });
-    client.musicDispatcher.on('error', (err) => {
-      return message.channel.send('error: ' + err).then(() => {
-        play(client.queue[message.guild.id].songs.shift());
-      });
-    });
-  })(client.queue[message.guild.id].songs.shift());
+  let info;
+  try {
+    info = await youtube.getVideoByID(id);
+  } catch (e) {
+    return message.channel.send(`\`An error occurred: ${e}\``);
+  }
+
+  if (message.author.permLevel < 2 && parseInt(info.durationSeconds) > 900) return message.reply("Songs can be no longer than 15 minutes.").catch(console.error);
+  const time = parseInt(info.durationSeconds, 10);
+  const minutes = Math.floor(time / 60);
+
+  let seconds = time % 60;
+
+  if (seconds < 10) seconds = "0" + seconds;
+  client.playlists.get(message.guild.id).queue.push({
+    url: `https://www.youtube.com/watch?v=${info.id}`,
+    id: info.id,
+    channName: info.channel.title,
+    songTitle: info.title,
+    playTime: `${minutes}:${seconds}`,
+    playTimeSeconds: info.durationSeconds,
+    requester: message.guild.member(message.author).displayName,
+    requesterIcon: message.author.avatarURL
+  });
+
+  if (firstSong) {
+    client.playNext(message);
+  } else {
+    embed
+      .setTitle(`**${info.title}** (${minutes}:${seconds}) has been added to the queue`)
+      .setColor(0xDD2825)
+      .setFooter(`Requested by ${message.guild.member(message.author).displayName}`, message.author.avatarURL)
+      .setImage(`https://i.ytimg.com/vi/${info.id}/mqdefault.jpg`)
+      .setTimestamp()
+      .setURL(`https://www.youtube.com/watch?v=${info.id}`);
+    if (client.embedPerms(message)) {
+      message.channel.send({embed}).catch(console.error);
+    } else {
+      message.channel.send(`**${info.title}** (${minutes}:${seconds}) has been added to the queue`);
+    }
+  }
 };
 
 exports.conf = {
@@ -52,6 +92,6 @@ exports.conf = {
 exports.help = {
   name: "play",
   category: "Music",
-  description: "Allows you to play the songs queued.",
-  usage: "play"
+  description: "Play a song from YouTube.",
+  usage: "play [YouTube Video URL] or [Search Term]"
 };

@@ -1,23 +1,30 @@
-const yt = require('ytdl-core');
+const Discord = require("discord.js");
+exports.run = async (client, message, args, level, key) => {
+  if (!client.playlists.has(message.guild.id)) return message.channel.send("The queue is empty.");
 
-exports.run = async (client, message, args, level, key) => { // eslint-disable-line no-unused-vars
-  if (client.queue[`${message.guild.id}`] === undefined) {
-    return message.channel.send(`Add some songs to the queue first with **${message.settings.prefix}add**`);
+  let playlist = client.playlists.get(message.guild.id);
+  playlist = playlist.queue.slice(playlist.position);
+
+  const current = playlist.shift();
+  const singular = playlist.length === 1;
+  const embed = new Discord.RichEmbed();
+
+  embed.setTitle(`Currently playing **${current.songTitle.substring(0, 50)}** (${current.playTime})`)
+    .setColor(0xDD2825)
+    .setFooter(`Requested by ${current.requester}`, current.requesterIcon)
+    .setDescription(`There ${singular ? "is" : "are"} currently ${playlist.length} song${singular ? "" : "s"} in the queue.\n`)
+    .setThumbnail(`https://i.ytimg.com/vi/${current.id}/mqdefault.jpg`)
+    .setTimestamp()
+    .setURL(current.url);
+
+  if (client.embedPerms(message)) {
+    for (let i = 0; i < playlist.length && i < 5; i++) {
+      embed.addField(`🎧 ${playlist[i].songTitle.substring(0, 50)} (${playlist[i].playTime})`, `🤘 Requested by **${playlist[i].requester}**`);
+    }
+    message.channel.send({embed});
+  } else {
+    message.channel.send(`Currently playing **${current.songTitle.substring(0, 50)}** (${current.playTime})\n\nThere ${singular ? "is" : "are"} currently ${playlist.length} song${singular ? "" : "s"} in the queue.\n${playlist.map.size === 0 ? "" : "🎧" + playlist.map(i => "_" + i.songTitle+"_ (" + i.playTime + ") requested by **" + i.requester + "**\n🔗 <https://www.youtube.com/watch?v="+i.id+">\n").join("\n🎧 ")}`);
   }
-
-  switch (args[0]) {
-    case "delete":
-    case "clear":
-      client.queue[message.guild.id] = undefined;
-      return message.channel.send(`Queue cleared. Add some songs with **${message.settings.prefix}add**`);
-      break;
-  }
-  
-    let tosend = [];
-
-    client.queue[message.guild.id].songs.forEach((song, i) => { tosend.push(`${i+1}. ${song.title} - Requested by: ${song.requester}`);});
-    
-		message.channel.send(`__**${message.guild.name}'s Music Queue:**__ Currently **${tosend.length}** songs queued ${(tosend.length > 15 ? '*[Only next 15 shown]*' : '')}\n\`\`\`${tosend.slice(0,15).join('\n')}\`\`\``);
 };
 
 exports.conf = {

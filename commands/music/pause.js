@@ -1,9 +1,11 @@
-exports.run = async (client, message, args, level) => { // eslint-disable-line no-unused-vars
-  if(!client.musicDispatcher || client.musicDispatcher === undefined) {
-    return message.channel.send("I couldn't do that, no music playing.")
+exports.run = async (client, message, args, level) => {
+  const voiceChannel = message.member.voiceChannel ? message.member.voiceChannel : (message.guild.voiceConnection ? message.guild.voiceConnection.channel : null);
+  if (!voiceChannel || (!message.member.voiceChannel && message.author.permLevel < 2)) {
+    return message.reply("Please be in a voice channel first!");
   }
-  message.channel.send(`:pause_button: Music **paused**, use ${message.settings.prefix}resume to continue playing.`)
-  client.musicDispatcher.pause();
+  if (client.playlists.get(message.guild.id).dispatcher.paused) return message.reply("Playback is already paused.");
+  message.channel.send("Pausing playback");
+  client.playlists.get(message.guild.id).dispatcher.pause();
 };
 
 exports.conf = {
@@ -16,6 +18,6 @@ exports.conf = {
 exports.help = {
   name: "pause",
   category: "Music",
-  description: "Allows you to pause the current song playing.",
+  description: "Pauses the audio stream.",
   usage: "pause"
 };
