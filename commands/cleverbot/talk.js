@@ -3,7 +3,7 @@ exports.run = async (client, message, args, level) => { // eslint-disable-line n
     message.channel.send("Please put a message after **a!talk** for example `a!talk How are you?`");
     return;
   }
-  
+
   client.clbot.ask(args, (err, response) => {
     message.channel.startTyping();
     setTimeout(() => {
@@ -16,13 +16,13 @@ exports.run = async (client, message, args, level) => { // eslint-disable-line n
 exports.conf = {
   enabled: true,
   guildOnly: false,
-  aliases: ["reply"],
+  aliases: ["reply", "clever", "cleverbot"],
   permLevel: "User"
 };
 
 exports.help = {
   name: "talk",
   category: "Miscelaneous",
-  description: "Have a convosation with Avaline.",
+  description: "Have a conversation with Avaline.",
   usage: "talk <message>"
 };
