@@ -70,3 +70,4 @@ typings/
 
 package-lock.json
 Avaline.code-workspace
+node_modules/enmap/package.json
