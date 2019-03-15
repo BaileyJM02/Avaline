@@ -1,5 +1,5 @@
-<%- include('../blocks/header', {bot, user, path}) %>
-<h2>Server Statistics (In Dev)</h2>
+<%- include('../blocks/header', {active: "dashboard",bot, user, path}) %>
+<h2>Server Statistics</h2>
 
   <div class="row">
     <div class="col-sm-3">
@@ -7,7 +7,53 @@
     </div>
     <div class="col-sm">
         <%- include('../blocks/guild-nav', {active: "stats", guild}) %>
-        <p>To Be Done</p>
+        <%
+        const date = new Date(guild.createdAt);
+        const textChannels = guild.channels.filter(ch => ch.type === 0).length;
+        const voiceChannels = guild.channels.filter(ch => ch.type === 2).length;
+        const owner = guild.members.get(guild.ownerID).user;
+        let createdAt = `${date.getDate() < 10 ? `0${date.getDate()}` : date.getDate()}`;
+        createdAt += `/${date.getMonth() < 10 ? `0${date.getMonth()}` : date.getMonth()}`;
+        createdAt += `/${date.getFullYear()}`;
+        %>
+  
+<div class="row">
+  <div class="col-3">ID</div>
+  <div class="col-6"><%= guild.id %></div>
+</div>
+<div class="row">
+  <div class="col-3">Owner</div>
+  <div class="col-6"><%= `${owner.username}#${owner.discriminator}` %></div>
+</div>
+<div class="row">
+  <div class="col-3">Members</div>
+  <div class="col-6"><%= `${guild.memberCount} ( ${guild.members.filter(m => m.user.bot).size} Bots )` %></div>
+</div>
+<div class="row">
+  <div class="col-3">Region</div>
+  <div class="col-6"><%= guild.region %></div>
+</div>
+<div class="row">
+  <div class="col-3">Channels</div>
+  <div class="col-6"><i class="fa fa-fw fa-hashtag" aria-hidden="true"></i>
+    <%= `${guild.channels.filter(c => c.type === 'text').size}`%>
+      <i class="fa fa-fw fa-microphone" aria-hidden="true"></i>
+      <%= `${guild.channels.filter(c => c.type === 'voice').size}`%></div>
+</div>
+<div class="row">
+  <div class="col-3">Created</div>
+  <div class="col-6"><span id="guildCreateStats"><%= guild.createdTimestamp %></span></div>
+</div>
+<div class="row">
+  <div class="col-3">Roles</div>
+  <div class="col-6"><i class="fa fa-fw fa-users" aria-hidden="true"></i>
+    <%= guild.roles.size %></div>
+</div>
+<div class="row">
+  <div class="col-3">Emojis</div>
+  <div class="col-6"><%= guild.emojis.length %></div>
+</div>
+                                                        
     </div>
   </div>
 
@@ -15,6 +61,8 @@
   <script type="text/javascript">
     var ts = parseInt($('#guildCreate').text());
     $('#guildCreate').html(`${moment(ts).format('MMMM Do YYYY (h:mm a)')}`);
+    var ts = parseInt($('#guildCreateStats').text());
+    $('#guildCreateStats').html(`${moment(ts).format('MMMM Do YYYY (h:mm a)')}`);
   </script>
 
 <% include ../blocks/footer %>

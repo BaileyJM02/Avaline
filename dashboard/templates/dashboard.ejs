@@ -1,6 +1,6 @@
-<%- include('blocks/header', {bot, user, path}) %>
+<%- include('blocks/header', {active: "dashboard",bot, user, path}) %>
 <div class="container">
-<h1 class="display-3">Dashboard</h1>
+<h1 class="display-4">Dashboard</h1>
 <ul class="list-unstyled">
   <% user.guilds.forEach(guild => { 
     const permsOnGuild = new perms(guild.permissions);
@@ -38,7 +38,7 @@
           enabled = bot.appInfo.botPublic;
         }
         %> 
-        <a class="btn btn-primary btn-lg<% if(!enabled) { %> disabled<% } %>" role="button" href="<%= href %>"><%= text %> <i class="fa fa-fw fa-chevron-circle-right" aria-hidden="true"></i></a>
+        <a class="btn btn-success btn-lg<% if(!enabled) { %> disabled<% } %>" role="button" href="<%= href %>"><%= text %> <i class="fa fa-fw fa-chevron-circle-right" aria-hidden="true"></i></a>
       </div>
     </li>
   <% }); %>

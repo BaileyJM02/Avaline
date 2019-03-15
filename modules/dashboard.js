@@ -266,6 +266,7 @@ module.exports = (client) => {
     const isManaged = guild && !!guild.member(req.user.id) ? guild.member(req.user.id).permissions.has("MANAGE_GUILD") : false;
     if (!isManaged && !req.session.isAdmin) res.redirect("/");
     client.writeSettings(guild.id, req.body);
+    console.log(req.body);
     res.redirect("/dashboard/"+req.params.guildID+"/manage");
   });
   

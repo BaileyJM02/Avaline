@@ -13,9 +13,6 @@ const config = {
   // Bot Owner, level 10 by default. A User ID. Should never be anything else than the bot owner's ID.
   "ownerID": "398197113495748626",
 
-  // "clientID": "450754650417659916",
-  // Beta
-  "clientID": "451994540300042240",
 
   // Bot Admins, level 9 by default. Array of user ID strings.
   "admins": ["162622228146421761", "240768462887190528"],
@@ -101,7 +98,7 @@ const config = {
       },
       "name": "Systen Notice",
       "value": "Enabled", 
-      "description": "I'm not quite sure?",
+      "description": "This gives a notice when a user tries to run a command that they do not have permission to use.",
       "category": "moderation"
     },
     "welcomeChannel": {
@@ -239,6 +236,11 @@ const config = {
       check: (message) => message.client.config.ownerID === message.author.id
     },
   ],
+
+
+  "clientID": "450754650417659916",
+  // Beta
+  // "clientID": "451994540300042240",
 
   "dashboard" : {
     "oauthSecret": "nnVpR-D_5ZL_4hp9VEgJevajNG8MUngM",

@@ -1,4 +1,4 @@
-<%- include('blocks/header', {bot, user, path}) %>
+<%- include('blocks/header', {active: "commands",bot, user, path}) %>
 <% const help = {};
 bot.commands.forEach((command) => {
   const cat = command.help.category;
@@ -15,26 +15,26 @@ bot.commands.forEach((command) => {
     <div class="card-columns">
       <% for (const command of help[category]) { %>
         <div class="card">
-            <h3 class="card-header bg-primary"><%= command.help.name %></h3>
+            <h3 class="card-header text-white bg-success"><%= command.help.name %></h3>
             <div class="card-body">
             <div class="card-block">
-              <p class="card-text"><%= command.help.description %></p>
-              <h6 class="card-subtitle text-muted">Permission: <%= command.conf.permLevel %><br /><a href="#" data-toggle="modal" data-target="#<%= `${command.help.name}` %>Modal">more...</a></h6>
+              <h6 class="card-text"><%= command.help.description %></h6>
+              <h6 class="card-subtitle text-muted">Permission: <%= command.conf.permLevel %><br /><a class="text-success" href="#" data-toggle="modal" data-target="#<%= `${command.help.name}` %>Modal">more...</a></h6>
             </div>
           </div>
         </div>
         <div id="<%= `${command.help.name}` %>Modal" class="modal fade" role="dialog">
           <div class="modal-dialog">
             <div class="modal-content">
-              <div class="modal-header bg-primary">
-                <h4 class="modal-title"><%= command.help.name %></h4>
+              <div class="modal-header bg-success">
+                <h4 class="modal-title text-white"><%= command.help.name %></h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
               </div>
               <div class="modal-body">
-                <p>Usage: <%= bot.config.defaultSettings.prefix.value +command.help.usage %></p>
-                <p>Command Aliases: <%- `${command.conf.aliases.join(', ') ? command.conf.aliases.join(', ') : "<i>None</i>"}` %></p>
+                <h6>Usage: <%= bot.config.defaultSettings.prefix.value +command.help.usage %></h6>
+                <h6>Command Aliases: <%- `${command.conf.aliases.join(', ') ? command.conf.aliases.join(', ') : "<i>None</i>"}` %></h6>
               </div>
-              <div class="modal-footer"><button type="button" class="btn btn-outline-danger" data-dismiss="modal">Close</button></div>
+              <div class="modal-footer"><button type="button" class="btn btn-outline-success" data-dismiss="modal">Close</button></div>
             </div>
           </div>
         </div>

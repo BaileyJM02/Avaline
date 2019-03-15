@@ -92,30 +92,16 @@ module.exports = (client) => {
   // writeSettings overrides, or adds, any configuration item that is different
   // than the defaults. This ensures less storage wasted and to detect overrides.
   client.writeSettings = (id, newSettings) => {
-    console.log(newSettings)
-    const defaults = client.config.defaultSettings;
     let settings = client.settings.id;
-    if (settings == undefined) {
+    if (settings === undefined) {
       settings = {};
-      for (const key in newSettings) {
+    }
+    for (const key in newSettings) {
+      if (settings[key] === undefined) {
         settings[key] = {};
       }
+      settings[key].value = newSettings[key];
     }
-    console.log(settings)
-    for (const key in newSettings) {
-      console.log(defaults[key].form.options)
-      settings[key] = {
-        "form": {
-          "type": defaults[key].form.type,
-          "options": defaults[key].form.options,
-        },
-        "name": defaults[key].name,
-        "value": newSettings[key],
-        "description": defaults[key].description,
-        "category": defaults[key].category
-      }
-    }
-    console.log(settings)
     client.settings.set(id, settings);
   };
 

@@ -1,4 +1,4 @@
-<%- include('blocks/header', {bot, user, path}) %>
+<%- include('blocks/header', {active: "admin",bot, user, path}) %>
   <div class="container">
     <h1 class="display-3">Administration</h1>
     <ul class="list-unstyled">
@@ -33,7 +33,7 @@
                       text = "Invite Bot";
                     }
                     %>
-                    <a class="btn btn-primary btn-lg" role="button" href="<%= href %>"> <%= text %> <i class="fa fa-fw fa-chevron-circle-right" aria-hidden="true"></i></a>
+                    <a class="btn btn-success btn-lg" role="button" href="<%= href %>"> <%= text %> <i class="fa fa-fw fa-chevron-circle-right" aria-hidden="true"></i></a>
                 </div>
         </li>
         <% }); %>
