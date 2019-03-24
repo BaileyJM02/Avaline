@@ -3,7 +3,8 @@
 
 ## Installation
 ~~To install **Avaline** simple click on the OAuth invite link: 
-[OAuth Link](https://discordapp.com/api/oauth2/authorize?client_id=450754650417659916&permissions=8&scope=bot)~~.\n
+[OAuth Link](https://discordapp.com/api/oauth2/authorize?client_id=450754650417659916&permissions=8&scope=bot)~~.
+
 This bot isn't hosted on a server anymore, you will need to install this code on your own server and make a Discord Application yourself.
 
 ## Setup (Within Discord)
